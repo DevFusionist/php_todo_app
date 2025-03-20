@@ -7,7 +7,7 @@
         header("Location: dashboard.php");
         exit;
     }
-    if ($_SERVER['REQUEST_METHOD'] === "POST") {
+    if ($_SERVER['REQUEST_METHOD'] === "POST" && isset($_POST['email']) && isset($_POST['password'])) {
         $email       = htmlspecialchars(trim($_POST['email']));
         $password    = htmlspecialchars(trim($_POST['password']));
         $messageText = "";

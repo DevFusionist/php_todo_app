@@ -15,29 +15,31 @@
     }
 
     if ($_SERVER['REQUEST_METHOD'] === "POST") {
-        if (! empty($_POST['edit_item'])) {
-            header("Location: dashboard.php?todo=" . urlencode($_POST['edit_item']));
-            exit();
-        } elseif ($_POST['delete_item']) {
-            $delete_item = $_POST['delete_item'];
-            $newTodos    = array_filter($todos, function ($todo) use ($delete_item) {
-                return $todo['id'] !== intval($delete_item);
-            });
-            $todos       = array_values($newTodos);
-            $messageText = "Todo deleted";
-        } elseif ($_POST['mark_todo_as_done']) {
-            foreach ($todos as &$todo) {
-                if ($todo['id'] === intval($_POST['mark_todo_as_done'])) {
-                    $todo['status'] = ($todo['status'] === "completed") ? "not completed" : "completed";
-                    break;
+    
+            if (isset($_POST['edit_item']) && ! empty($_POST['edit_item'])) {
+                header("Location: dashboard.php?todo=" . urlencode($_POST['edit_item']));
+                exit();
+            } elseif (isset($_POST['delete_item']) && ! empty($_POST['delete_item'])) {
+                $delete_item = $_POST['delete_item'];
+                $newTodos    = array_filter($todos, function ($todo) use ($delete_item) {
+                    return $todo['id'] !== intval($delete_item);
+                });
+                $todos       = array_values($newTodos);
+                $messageText = "Todo deleted";
+            } elseif (isset($_POST['mark_todo_as_done']) && ! empty($_POST['mark_todo_as_done'])) {
+                foreach ($todos as &$todo) {
+                    if ($todo['id'] === intval($_POST['mark_todo_as_done'])) {
+                        $todo['status'] = ($todo['status'] === "completed") ? "not completed" : "completed";
+                        break;
+                    }
                 }
-            }
-            $messageText = ($todo['status'] === "not completed") ? "Todo has been marked as completed" : "Todo has been marked as not completed";
+                $messageText = ($todo['status'] === "not completed") ? "Todo has been marked as completed" : "Todo has been marked as not completed";
 
-        }
-        $messageType = "success";
-        file_put_contents($fileName, json_encode($todos, JSON_PRETTY_PRINT));
-        header("Location: " . $_SERVER['PHP_SELF']);
+            }
+            $messageType = "success";
+            file_put_contents($fileName, json_encode($todos, JSON_PRETTY_PRINT));
+            header("Location: " . $_SERVER['PHP_SELF']);
+        
     }
 ?>
 <!DOCTYPE html>
@@ -63,6 +65,7 @@
        <div class='d-flex justify-content-evenly' style="margin-top:15px;">
          <h1 style="text-align:center;">Welcome to Dashboard</h1>
          <button type="submit" class="btn btn-primary" id='add_todo'>Add Todo</button>
+         <?php include './require.php'; ?>
         </div>
         <h5 class="card-title" style="text-align:center;margin-top:1rem;">Todo List</h5>
       <div class="row">

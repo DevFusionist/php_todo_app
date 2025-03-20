@@ -16,34 +16,41 @@
 
     $todo_item_to_be_edited_index = $_GET['todo'];
     $todo_item_to_be_edited       = null;
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $todo_name   = htmlspecialchars(trim(($_POST['todo_name'])));
-        $description = htmlspecialchars(trim(($_POST['description'])));
+    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['todo_name']) && isset($_POST['description'])) {
+        if (empty($_POST['todo_name']) && empty($_POST['description'])) {
 
-        if (! $_GET['todo']) {
-            $id      = count($todos) > 0 ? count($todos) + 1 : 1;
-            $todos[] = [
-                "id"          => $id,
-                "name"        => $todo_name,
-                "description" => $description,
-                "status"      => "not completed",
-            ];
-            $messageText = "Todo has been created and saved successfully";
+            $messageText = "Name and Description fields are required";
+            $messageType = "danger";
         } else {
-            foreach ($todos as &$todo) {
-                if ($todo['id'] === intval($_GET['todo'])) {
-                    $todo_item_to_be_edited = $todo;
-                    $todo['name']           = $todo_name;
-                    $todo['description']    = $description;
-                    break;
+
+            $todo_name   = htmlspecialchars(trim(($_POST['todo_name'])));
+            $description = htmlspecialchars(trim(($_POST['description'])));
+
+            if (! $_GET['todo']) {
+                $id      = count($todos) > 0 ? count($todos) + 1 : 1;
+                $todos[] = [
+                    "id"          => $id,
+                    "name"        => $todo_name,
+                    "description" => $description,
+                    "status"      => "not completed",
+                ];
+                $messageText = "Todo has been created and saved successfully";
+            } else {
+                foreach ($todos as &$todo) {
+                    if ($todo['id'] === intval($_GET['todo'])) {
+                        $todo_item_to_be_edited = $todo;
+                        $todo['name']           = $todo_name;
+                        $todo['description']    = $description;
+                        break;
+                    }
                 }
+                $messageText = "Todo has been edited and saved successfully";
             }
-            $messageText = "Todo has been edited and saved successfully";
+            file_put_contents($fileName, json_encode($todos, JSON_PRETTY_PRINT));
+            $messageType = "success";
+            header("Location: view_todo.php");
+            exit;
         }
-        file_put_contents($fileName, json_encode($todos, JSON_PRETTY_PRINT));
-        $messageType = "success";
-        header("Location: view_todo.php");
-        exit;
     }
     foreach ($todos as $todo) {
         if ($todo['id'] === intval($_GET['todo'])) {
@@ -75,6 +82,7 @@
         <div class='d-flex justify-content-evenly' style="margin-top:15px;">
          <h1 style="text-align:center;">Welcome to Dashboard</h1>
          <button type="submit" class="btn btn-primary" id='view_todo'>View Todo</button>
+         <?php include './require.php'; ?>
         </div>
         <div class="card" style="width: 50%; height:400px; margin:5% auto;">
             <div class="card-body">

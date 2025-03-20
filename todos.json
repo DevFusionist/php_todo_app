@@ -1,14 +1,8 @@
 [
     {
         "id": 1,
-        "name": "First todo edited",
-        "description": "This is first todo",
-        "status": "completed"
-    },
-    {
-        "id": 2,
-        "name": "Second todo",
-        "description": "This is second todo",
-        "status": "completed"
+        "name": "dcfds",
+        "description": "sdfdsf",
+        "status": "not completed"
     }
 ]
