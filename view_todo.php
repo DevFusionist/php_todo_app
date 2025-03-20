@@ -32,11 +32,11 @@
                 }
             }
             $messageText = ($todo['status'] === "not completed") ? "Todo has been marked as completed" : "Todo has been marked as not completed";
-            
+
         }
         $messageType = "success";
         file_put_contents($fileName, json_encode($todos, JSON_PRETTY_PRINT));
-        header("Location: ".$_SERVER['PHP_SELF']);
+        header("Location: " . $_SERVER['PHP_SELF']);
     }
 ?>
 <!DOCTYPE html>
@@ -59,10 +59,11 @@
               <?php echo htmlspecialchars($messageText); ?>
           </div>
        <?php endif; ?>
-        <div>
+       <div class='d-flex justify-content-evenly' style="margin-top:15px;">
          <h1 style="text-align:center;">Welcome to Dashboard</h1>
-         <h5 class="card-title" style="text-align:center;margin-top:1rem;">Todo List</h5>
+         <button type="submit" class="btn btn-primary" id='add_todo'>Add Todo</button>
         </div>
+        <h5 class="card-title" style="text-align:center;margin-top:1rem;">Todo List</h5>
       <div class="row">
         <?php foreach ($todos as $todo): ?>
                 <div key="<?php echo $todo["id"]; ?>" class="card col-md-4 mb-4" style="width: 30%; height:auto; margin:5% auto;">
@@ -102,5 +103,13 @@
       integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
       crossorigin="anonymous"
     ></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function(){
+            const btnRef = document.getElementById('add_todo');
+            btnRef.addEventListener('click', function(){
+                window.location.href = "dashboard.php";
+            })
+        })
+    </script>
   </body>
 </html>
