@@ -17,7 +17,7 @@
     $todo_item_to_be_edited_index = $_GET['todo'];
     $todo_item_to_be_edited       = null;
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['todo_name']) && isset($_POST['description'])) {
-        if (empty($_POST['todo_name']) && empty($_POST['description'])) {
+        if (empty(trim(htmlspecialchars($_POST['todo_name']))) || empty(trim(htmlspecialchars($_POST['description'])))) {
 
             $messageText = "Name and Description fields are required";
             $messageType = "danger";
