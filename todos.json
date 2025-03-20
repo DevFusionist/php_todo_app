@@ -9,6 +9,6 @@
         "id": 2,
         "name": "Second todo",
         "description": "This is second todo",
-        "status": "not completed"
+        "status": "completed"
     }
 ]

@@ -71,6 +71,16 @@
                         <h3>
                         <?php echo $todo['name']; ?>
                         </h3>
+                        <?php if ($todo['status'] === "completed"): ?>
+                            <p class='bg-success' style="border-radius:20px; padding:5px; text-align:center;">
+                                🎉 Completed
+                            </p>
+                        <?php else: ?>
+                            <p class='bg-danger' style="border-radius:20px; padding:5px; text-align:center;">
+                                ❌ Not Completed
+                            </p>
+                        <?php endif; ?>
+
                         <h5>
                         <?php echo $todo['description']; ?>
                         </h5>
