@@ -3,7 +3,7 @@
         "id": 1,
         "name": "First todo edited",
         "description": "This is first todo",
-        "status": "not completed"
+        "status": "completed"
     },
     {
         "id": 2,

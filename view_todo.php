@@ -15,8 +15,9 @@
     }
 
     if ($_SERVER['REQUEST_METHOD'] === "POST") {
-        if ($_POST['edit_item']) {
+        if (! empty($_POST['edit_item'])) {
             header("Location: dashboard.php?todo=" . urlencode($_POST['edit_item']));
+            exit();
         } elseif ($_POST['delete_item']) {
             $delete_item = $_POST['delete_item'];
             $newTodos    = array_filter($todos, function ($todo) use ($delete_item) {
@@ -87,7 +88,7 @@
                         <div class="d-flex gap-2">
                             <form method="post" action="<?php echo $_SERVER['PHP_SELF'] ?>">
                                 <input type="hidden" value="<?php echo $todo['id'] ?>" name="edit_item"/>
-                                <button class='btn btn-primary'>Edit Todo</button>
+                                <button class='btn btn-primary' id="edit_todo">Edit Todo</button>
                             </form>
                             <form method="post" action="<?php echo $_SERVER['PHP_SELF'] ?>">
                                 <input type="hidden" value="<?php echo $todo['id'] ?>" name="delete_item"/>
