@@ -3,6 +3,9 @@
     if (empty($_SESSION['email']) && empty($_SESSION['password'])) {
         header("Location: signup.php");
         exit;
+    } elseif ($_SESSION['isLoggedIn']) {
+        header("Location: dashboard.php");
+        exit;
     }
     if ($_SERVER['REQUEST_METHOD'] === "POST") {
         $email       = htmlspecialchars(trim($_POST['email']));
